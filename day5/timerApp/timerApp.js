@@ -1,42 +1,37 @@
 const timerTextElem = document.getElementById("timer-text");
-
 let timeInSec = 0;
+let intervalId = setInterval(timerFunc, 1000);
 
-const timerFunc = () => {
+function timerFunc() {
   timeInSec++;
-  console.log(timeInSec);
 
   const sec = timeInSec % 60;
-
-  let min = Math.floor(timeInSec / 60);
-
-  min = min % 60;
-
+  let min = Math.floor(timeInSec / 60) % 60;
   const hrs = Math.floor(timeInSec / 3600);
 
-  // timerTextElem.innerText = `${hrs}:${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
   timerTextElem.innerText = `${hrs.toString().padStart(2, "0")}:${min
     .toString()
     .padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
-};
+}
 
-let intervalId = setInterval(timerFunc, 1000);
-
-const handleReset = () => {
+function handleReset() {
   timeInSec = 0;
-  timerTextElem.innerText = "00:00:00";
-};
-
-const handlePause = () => {
   clearInterval(intervalId);
-};
+  timerTextElem.innerText = "00:00:00";
+  document.getElementById("root").innerHTML = "";
+}
 
-const handleResume = () => {
+function handlePause() {
+  clearInterval(intervalId);
+}
+
+function handleResume() {
+  clearInterval(intervalId);
   intervalId = setInterval(timerFunc, 1000);
-};
+}
 
-const handleLap = () => {
+function handleLap() {
   const para = document.createElement("p");
   para.innerText = timerTextElem.innerText;
   document.getElementById("root").appendChild(para);
-};
+}
